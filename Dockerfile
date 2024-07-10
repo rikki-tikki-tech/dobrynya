@@ -5,6 +5,8 @@ WORKDIR /dobrynya
 COPY dist ./dist
 COPY package.json ./
 COPY pm2.json ./
+COPY tsconfig.build.json ./
+COPY tsconfig.json ./
 
 EXPOSE 3000
 

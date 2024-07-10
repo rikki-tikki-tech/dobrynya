@@ -62,20 +62,6 @@ jobs:
     runs-on: self-hosted
     needs: build
 
-    env:
-      deploy_script: |
-        # Clean old images
-        docker container prune -f
-        docker image prune -f
-
-        # Start peresvet    
-        if [[ -n "$(docker ps -a -q)" ]]; then docker stop $(docker ps -a -q); fi
-
-        docker pull utrobin/dobrynya
-        docker run -d --restart always -p 3000:3000 utrobin/dobrynya
-
-        echo Container updated successfully.
-
     steps:
       - name: 🚀 Deploy to server Svarog via SSH action
         uses: appleboy/ssh-action@v1.0.3
@@ -92,7 +78,7 @@ jobs:
             # Start
             if [[ -n "$(docker ps -a -q)" ]]; then docker stop $(docker ps -a -q); fi
             
-            docker pull utrobin/koschei
-            docker run -d --restart always -p 3000:3000 utrobin/dobrynya
+            docker pull utrobin/dobrynya
+            docker run -d -p 3000:3000 utrobin/dobrynya
             
             echo Container updated successfully.
