@@ -12,5 +12,5 @@ COPY tsconfig.json ./
 EXPOSE 3000
 
 RUN npm i pm2 -g
-RUN npm ci
+RUN npm i
 CMD npm run pm2
