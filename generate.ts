@@ -52,6 +52,7 @@ const traverseDirectory = (dir) => {
 
 exec(command, (error, stdout, stderr) => {
   // Это что-то очень странное, но типы ts-proto генерирует не правильно
+  // https://github.com/stephenh/ts-proto/issues/847#issuecomment-2219967538
   traverseDirectory(GENERATED_DIR);
 
   if (error) {

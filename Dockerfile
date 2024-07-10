@@ -3,7 +3,6 @@ FROM node:lts-alpine3.20
 WORKDIR /dobrynya
 
 COPY dist ./dist
-COPY public ./public
 COPY package.json ./
 COPY pm2.json ./
 
