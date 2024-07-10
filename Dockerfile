@@ -13,4 +13,4 @@ EXPOSE 3000
 
 RUN npm i pm2 -g && npm install
 
-CMD [ "pm2-runtime", "pm2.json" ]
+CMD [ "pm2-runtime", "start", "pm2.json" ]
