@@ -15,4 +15,3 @@ RUN npm i pm2 -g
 RUN npm install
 RUN ls -al -R
 CMD [ "pm2-runtime", "start", "pm2.json" ]
-
