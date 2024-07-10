@@ -11,7 +11,6 @@ COPY tsconfig.json ./
 
 EXPOSE 3000
 
-RUN npm i pm2 -g
-RUN npm install
-RUN ls -al -R
-CMD [ "pm2-runtime", "start", "pm2.json" ]
+RUN npm i pm2 -g && npm install
+
+CMD [ "pm2-runtime", "pm2.json" ]
