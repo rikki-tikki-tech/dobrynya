@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate": "ts-node generate.ts"
+    "generate": "ts-node generate.ts",
+    "pm2": "pm2 start pm2.json && pm2-runtime pm2.json"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.10.10",
