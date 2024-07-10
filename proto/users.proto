@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package koschei.ports.grpc.proto.v1;
+
+option java_package = "koschei.ports.grpc.proto.v1";
+option java_multiple_files = true;
+option java_outer_classname = "UsersProto";
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/type/date.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
+
+
+service Users {
+  rpc GetUser(GetUserRequest) returns (User);
+
+  rpc AuthenticateUser(AuthenticateUserRequest) returns (AuthenticateUserResponse);
+
+  rpc UpdateUser(UpdateUserRequest) returns (User);
+
+  rpc SignInUser(SignInUserRequest) returns (SignInUserResponse);
+
+  rpc SignUpUser(SignUpUserRequest) returns (User);
+}
+
+// A user resource.
+message User {
+  option (google.api.resource) = {
+    type: "koschei.rikki-tikki.tech/User"
+    pattern: "users/{user}"
+  };
+
+  string name = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  string email = 2 [(google.api.field_behavior) = REQUIRED];
+
+  string password = 3 [
+    (google.api.field_behavior) = INPUT_ONLY,
+    (google.api.field_behavior) = REQUIRED
+  ];
+
+  string first_name = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  google.type.Date birthday_date = 5 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message GetUserRequest {
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {
+      type: "koschei.rikki-tikki.tech/User"
+    }
+  ];
+}
+
+message UpdateUserRequest {
+  User user = 1 [(google.api.field_behavior) = REQUIRED];
+
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message SignInUserRequest {
+  string email = 1 [(google.api.field_behavior) = REQUIRED];
+  string password = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message SignInUserResponse {
+  string token = 1;
+}
+
+message AuthenticateUserRequest {
+  string token = 1;
+}
+
+message AuthenticateUserResponse {
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {
+      type: "koschei.rikki-tikki.tech/User"
+    }
+  ];
+}
+
+message SignUpUserRequest {
+  User user = 1 [(google.api.field_behavior) = REQUIRED];
+}
