@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "dobrynya",
-      "script": "nest",
+      "script": "./node_modules/.bin/nest",
       "args": "start",
       "instances": "max",
       "exec_mode": "cluster"
