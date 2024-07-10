@@ -4,7 +4,7 @@
       "name": "dobrynya",
       "script": "./node_modules/.bin/nest",
       "args": "start",
-      "instances": "1",
+      "instances": "max",
       "exec_mode": "cluster"
     }
   ]
