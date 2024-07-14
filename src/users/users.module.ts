@@ -8,7 +8,6 @@ const COMMON_PROTO_PATH = path.resolve(
   '../../../node_modules/google-proto-files/',
 );
 const PROTO_PATH = path.resolve(__dirname, '../../../proto/users.proto');
-console.log(PROTO_PATH, 43434);
 
 @Module({
   imports: [
