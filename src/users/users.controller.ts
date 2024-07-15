@@ -9,8 +9,9 @@ import {
   Put,
   Res,
   UseGuards,
+  Req,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { map, Observable, tap } from 'rxjs';
 import {
   GetUserRequest,
@@ -33,6 +34,13 @@ export class UsersController implements OnModuleInit {
 
   onModuleInit() {
     this.usersClient = this.client.getService<UsersClient>(USERS_SERVICE_NAME);
+  }
+
+  @Get('me')
+  @UseGuards(AuthGuard)
+  getMe(@Req() request: Request): Observable<User> {
+    // eslint-disable-next-line
+    return this.usersClient.getUser({ name: (request as any).userName });
   }
 
   @Get(':name')
