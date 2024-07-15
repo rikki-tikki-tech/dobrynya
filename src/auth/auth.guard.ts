@@ -29,15 +29,12 @@ export class AuthGuard implements CanActivate, OnModuleInit {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
 
-    console.log(token);
     if (!token) {
       throw new UnauthorizedException();
     }
 
     return this.usersClient.authenticateUser({ token }).pipe(
       map((payload: AuthenticateUserResponse) => {
-        console.log(payload, 111);
-
         // Присваиваем payload объекту запроса для использования в обработчиках маршрутов
         request['userName'] = payload.name;
         return true;
