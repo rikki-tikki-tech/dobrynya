@@ -6,7 +6,12 @@ import * as cors from 'cors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
-  app.use(cors());
+  app.use(
+    cors({
+      origin: 'http://localhost:3001', // Укажите ваш origin
+      credentials: true, // Разрешение на отправку cookies
+    }),
+  );
 
   await app.listen(3000);
 }
