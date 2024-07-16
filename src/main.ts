@@ -6,6 +6,7 @@ import * as cors from 'cors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
+  app.setGlobalPrefix('api');
   app.use(
     cors({
       origin: 'http://localhost:3001', // Укажите ваш origin
