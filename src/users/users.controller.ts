@@ -43,18 +43,6 @@ export class UsersController implements OnModuleInit {
     return this.usersClient.getUser({ name: (request as any).userName });
   }
 
-  @Get(':name')
-  @UseGuards(AuthGuard)
-  getUser(@Param() request: GetUserRequest): Observable<User> {
-    return this.usersClient.getUser({ name: request.name });
-  }
-
-  @Put(':name')
-  @UseGuards(AuthGuard)
-  updateUser(@Body() request: UpdateUserRequest): Observable<User> {
-    return this.usersClient.updateUser(request);
-  }
-
   @Post()
   createUser(@Body() request: SignUpUserRequest): Observable<User> {
     return this.usersClient.signUpUser(request);
@@ -72,7 +60,6 @@ export class UsersController implements OnModuleInit {
         const maxAge = 6 * 30 * 24 * 60 * 60 * 1000; // 6 месяцев
         res.cookie('authorization', `Bearer ${token}`, {
           httpOnly: true,
-          sameSite: 'none',
           maxAge,
         });
 
@@ -80,5 +67,17 @@ export class UsersController implements OnModuleInit {
       }),
       map(() => undefined),
     );
+  }
+
+  @Get(':name')
+  @UseGuards(AuthGuard)
+  getUser(@Param() request: GetUserRequest): Observable<User> {
+    return this.usersClient.getUser({ name: request.name });
+  }
+
+  @Put(':name')
+  @UseGuards(AuthGuard)
+  updateUser(@Body() request: UpdateUserRequest): Observable<User> {
+    return this.usersClient.updateUser(request);
   }
 }
