@@ -22,9 +22,9 @@ import {
   User,
   USERS_SERVICE_NAME,
   UsersClient,
-} from '../generated/users';
+} from '@/generated/users';
 import { ClientGrpc } from '@nestjs/microservices';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '@/auth/auth.guard';
 
 @Controller('users')
 export class UsersController implements OnModuleInit {
@@ -40,7 +40,7 @@ export class UsersController implements OnModuleInit {
   @UseGuards(AuthGuard)
   getMe(@Req() request: Request): Observable<User> {
     // eslint-disable-next-line
-    return this.usersClient.getUser({ name: (request as any).userName });
+    return this.usersClient.getUser({ id: (request as any).userId });
   }
 
   @Post()
@@ -69,13 +69,14 @@ export class UsersController implements OnModuleInit {
     );
   }
 
-  @Get(':name')
+  @Get(':id')
   @UseGuards(AuthGuard)
   getUser(@Param() request: GetUserRequest): Observable<User> {
-    return this.usersClient.getUser({ name: request.name });
+    console.log(request.id, 123);
+    return this.usersClient.getUser({ id: request.id });
   }
 
-  @Put(':name')
+  @Put()
   @UseGuards(AuthGuard)
   updateUser(@Body() request: UpdateUserRequest): Observable<User> {
     return this.usersClient.updateUser(request);

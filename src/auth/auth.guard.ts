@@ -12,7 +12,7 @@ import {
   AuthenticateUserResponse,
   USERS_SERVICE_NAME,
   UsersClient,
-} from '../generated/users';
+} from '@/generated/users';
 import { ClientGrpc } from '@nestjs/microservices';
 
 @Injectable()
@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate, OnModuleInit {
     return this.usersClient.authenticateUser({ token }).pipe(
       map((payload: AuthenticateUserResponse) => {
         // Присваиваем payload объекту запроса для использования в обработчиках маршрутов
-        request['userName'] = payload.name;
+        request['userId'] = payload.id;
         return true;
       }),
       catchError(() => {

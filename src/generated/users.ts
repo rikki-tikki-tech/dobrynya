@@ -14,7 +14,7 @@ export const protobufPackage = 'koschei.ports.grpc.proto.v1';
 
 /** A user resource. */
 export interface User {
-  name: string;
+  id: string;
   email: string;
   password: string;
   firstName: string;
@@ -22,7 +22,7 @@ export interface User {
 }
 
 export interface GetUserRequest {
-  name: string;
+  id: string;
 }
 
 export interface UpdateUserRequest {
@@ -44,7 +44,7 @@ export interface AuthenticateUserRequest {
 }
 
 export interface AuthenticateUserResponse {
-  name: string;
+  id: string;
 }
 
 export interface SignUpUserRequest {

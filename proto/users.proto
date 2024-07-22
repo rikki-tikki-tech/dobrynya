@@ -29,10 +29,9 @@ service Users {
 message User {
   option (google.api.resource) = {
     type: "koschei.rikki-tikki.tech/User"
-    pattern: "users/{user}"
   };
 
-  string name = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+  string id = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   string email = 2 [(google.api.field_behavior) = REQUIRED];
 
@@ -47,7 +46,7 @@ message User {
 }
 
 message GetUserRequest {
-  string name = 1 [
+  string id = 1 [
     (google.api.field_behavior) = REQUIRED,
     (google.api.resource_reference) = {
       type: "koschei.rikki-tikki.tech/User"
@@ -75,7 +74,7 @@ message AuthenticateUserRequest {
 }
 
 message AuthenticateUserResponse {
-  string name = 1 [
+  string id = 1 [
     (google.api.field_behavior) = REQUIRED,
     (google.api.resource_reference) = {
       type: "koschei.rikki-tikki.tech/User"
