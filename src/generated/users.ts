@@ -39,6 +39,14 @@ export interface SignInUserResponse {
   token: string;
 }
 
+export interface GoogleSignInOrSignUpUserRequest {
+  codeToken: string;
+}
+
+export interface GoogleSignInOrSignUpUserResponse {
+  token: string;
+}
+
 export interface AuthenticateUserRequest {
   token: string;
 }
@@ -65,6 +73,10 @@ export interface UsersClient {
 
   signInUser(request: SignInUserRequest): Observable<SignInUserResponse>;
 
+  googleSignInOrSignUpUser(
+    request: GoogleSignInOrSignUpUserRequest,
+  ): Observable<GoogleSignInOrSignUpUserResponse>;
+
   signUpUser(request: SignUpUserRequest): Observable<User>;
 }
 
@@ -89,6 +101,13 @@ export interface UsersController {
     | Observable<SignInUserResponse>
     | SignInUserResponse;
 
+  googleSignInOrSignUpUser(
+    request: GoogleSignInOrSignUpUserRequest,
+  ):
+    | Promise<GoogleSignInOrSignUpUserResponse>
+    | Observable<GoogleSignInOrSignUpUserResponse>
+    | GoogleSignInOrSignUpUserResponse;
+
   signUpUser(
     request: SignUpUserRequest,
   ): Promise<User> | Observable<User> | User;
@@ -101,6 +120,7 @@ export function UsersControllerMethods() {
       'authenticateUser',
       'updateUser',
       'signInUser',
+      'googleSignInOrSignUpUser',
       'signUpUser',
     ];
     for (const method of grpcMethods) {

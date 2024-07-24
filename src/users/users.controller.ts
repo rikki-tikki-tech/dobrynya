@@ -15,6 +15,7 @@ import { Response, Request } from 'express';
 import { map, Observable, tap } from 'rxjs';
 import {
   GetUserRequest,
+  GoogleSignInOrSignUpUserRequest,
   SignInUserRequest,
   SignInUserResponse,
   SignUpUserRequest,
@@ -36,6 +37,23 @@ export class UsersController implements OnModuleInit {
     this.usersClient = this.client.getService<UsersClient>(USERS_SERVICE_NAME);
   }
 
+  private handleSignInResponse(
+    res: Response,
+    response: {
+      token: string;
+    },
+  ): void {
+    const token = response.token; // Предполагается, что токен находится в ответе
+
+    const maxAge = 6 * 30 * 24 * 60 * 60 * 1000; // 6 месяцев
+    res.cookie('authorization', `Bearer ${token}`, {
+      httpOnly: true,
+      maxAge,
+    });
+
+    res.send('Successfully logged in');
+  }
+
   @Get('me')
   @UseGuards(AuthGuard)
   getMe(@Req() request: Request): Observable<User> {
@@ -54,17 +72,9 @@ export class UsersController implements OnModuleInit {
     @Body() request: SignInUserRequest,
   ): Observable<void> {
     return this.usersClient.signInUser(request).pipe(
-      tap((response: SignInUserResponse) => {
-        const token = response.token; // Предполагается, что токен находится в ответе
-
-        const maxAge = 6 * 30 * 24 * 60 * 60 * 1000; // 6 месяцев
-        res.cookie('authorization', `Bearer ${token}`, {
-          httpOnly: true,
-          maxAge,
-        });
-
-        res.send('Successfully logged in');
-      }),
+      tap((response: SignInUserResponse) =>
+        this.handleSignInResponse(res, response),
+      ),
       map(() => undefined),
     );
   }
@@ -72,7 +82,6 @@ export class UsersController implements OnModuleInit {
   @Get(':id')
   @UseGuards(AuthGuard)
   getUser(@Param() request: GetUserRequest): Observable<User> {
-    console.log(request.id, 123);
     return this.usersClient.getUser({ id: request.id });
   }
 
@@ -80,5 +89,18 @@ export class UsersController implements OnModuleInit {
   @UseGuards(AuthGuard)
   updateUser(@Body() request: UpdateUserRequest): Observable<User> {
     return this.usersClient.updateUser(request);
+  }
+
+  @Post('google')
+  googleSignInOrSignUpUser(
+    @Res() res: Response,
+    @Body() request: GoogleSignInOrSignUpUserRequest,
+  ): Observable<void> {
+    return this.usersClient.googleSignInOrSignUpUser(request).pipe(
+      tap((response: SignInUserResponse) =>
+        this.handleSignInResponse(res, response),
+      ),
+      map(() => undefined),
+    );
   }
 }
