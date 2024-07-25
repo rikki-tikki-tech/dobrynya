@@ -61,6 +61,19 @@ export class UsersController implements OnModuleInit {
     return this.usersClient.getUser({ id: (request as any).userId });
   }
 
+  @Post('google')
+  googleSignInOrSignUpUser(
+    @Res() res: Response,
+    @Body() request: GoogleSignInOrSignUpUserRequest,
+  ): Observable<void> {
+    return this.usersClient.googleSignInOrSignUpUser(request).pipe(
+      tap((response: SignInUserResponse) =>
+        this.handleSignInResponse(res, response),
+      ),
+      map(() => undefined),
+    );
+  }
+
   @Post()
   createUser(@Body() request: SignUpUserRequest): Observable<User> {
     return this.usersClient.signUpUser(request);
@@ -89,18 +102,5 @@ export class UsersController implements OnModuleInit {
   @UseGuards(AuthGuard)
   updateUser(@Body() request: UpdateUserRequest): Observable<User> {
     return this.usersClient.updateUser(request);
-  }
-
-  @Post('google')
-  googleSignInOrSignUpUser(
-    @Res() res: Response,
-    @Body() request: GoogleSignInOrSignUpUserRequest,
-  ): Observable<void> {
-    return this.usersClient.googleSignInOrSignUpUser(request).pipe(
-      tap((response: SignInUserResponse) =>
-        this.handleSignInResponse(res, response),
-      ),
-      map(() => undefined),
-    );
   }
 }
