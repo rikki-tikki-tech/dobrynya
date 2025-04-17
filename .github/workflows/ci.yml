@@ -71,6 +71,8 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script_stop: true
           script: |
+            docker info
+            
             # Clean old images
             docker container prune -f
             docker image prune -f
