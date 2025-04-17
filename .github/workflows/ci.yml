@@ -64,10 +64,10 @@ jobs:
 
     steps:
       - name: 🚀 Deploy to server Svarog via SSH action
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.DEPLOY_HOST_DOBRYNYA }}
-          username: "dobrynya"
+          username: "deployer"
           key: ${{ secrets.DEPLOY_KEY }}
           script_stop: true
           script: |
