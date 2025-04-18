@@ -22,7 +22,7 @@ const PROTO_PATH = path.resolve(__dirname, '../../proto/users.proto');
         options: {
           package: 'koschei.ports.grpc.proto.v1',
           protoPath: PROTO_PATH,
-          url: '158.160.25.210:50051',
+          url: '89.169.148.201:50051',
           loader: {
             includeDirs: [COMMON_PROTO_PATH],
           },
