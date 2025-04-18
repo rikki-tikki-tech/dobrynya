@@ -47,7 +47,11 @@ export class UsersController implements OnModuleInit {
 
     const maxAge = 6 * 30 * 24 * 60 * 60 * 1000; // 6 месяцев
     res.cookie('authorization', `Bearer ${token}`, {
+      domain: ".yenisei.org",
+      path: "/",
       httpOnly: false,
+      secure: true,
+      sameSite: "None",
       maxAge,
     });
 
