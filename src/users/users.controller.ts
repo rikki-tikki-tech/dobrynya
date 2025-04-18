@@ -51,7 +51,7 @@ export class UsersController implements OnModuleInit {
       path: "/",
       httpOnly: false,
       secure: true,
-      sameSite: "None",
+      sameSite: "none",
       maxAge,
     });
 
