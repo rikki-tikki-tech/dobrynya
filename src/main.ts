@@ -11,7 +11,12 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(
     cors({
-      origin: ['http://localhost:3001', 'http://localhost:3000', 'http://local.yenisei.org:3000', 'https://yenisei.org'], // Укажите ваш origin
+      origin: [
+        'http://localhost:3001',
+        'http://localhost:3000',
+        'http://local.yenisei.org:3000',
+        'https://yenisei.org',
+      ], // Укажите ваш origin
       credentials: true, // Разрешение на отправку cookies
     }),
   );
