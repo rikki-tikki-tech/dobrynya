@@ -116,7 +116,6 @@ export class UsersController implements OnModuleInit {
       secure: true,
     });
 
-    res.clearCookie('authorization');
     res.send({ message: 'Successfully logged out' });
   }
 
