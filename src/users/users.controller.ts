@@ -12,7 +12,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import {
   GetUserRequest,
   GoogleSignInOrSignUpUserRequest,
@@ -47,11 +47,8 @@ export class UsersController implements OnModuleInit {
 
     const maxAge = 6 * 30 * 24 * 60 * 60 * 1000; // 6 месяцев
     res.cookie('authorization', `Bearer ${token}`, {
-      domain: ".yenisei.org",
-      path: "/",
-      httpOnly: false,
+      httpOnly: true,
       secure: true,
-      sameSite: "none",
       maxAge,
     });
 
@@ -79,8 +76,23 @@ export class UsersController implements OnModuleInit {
   }
 
   @Post()
-  createUser(@Body() request: SignUpUserRequest): Observable<User> {
-    return this.usersClient.signUpUser(request);
+  createUser(
+    @Res() res: Response,
+    @Body() request: SignUpUserRequest,
+  ): Observable<void> {
+    return this.usersClient.signUpUser(request).pipe(
+      switchMap((user: User) => {
+        const signInRequest: SignInUserRequest = {
+          email: user.email,
+          password: request.user.password,
+        };
+        return this.usersClient.signInUser(signInRequest);
+      }),
+      tap((response: SignInUserResponse) =>
+        this.handleSignInResponse(res, response),
+      ),
+      map(() => undefined),
+    );
   }
 
   @Post('signin')
@@ -94,6 +106,13 @@ export class UsersController implements OnModuleInit {
       ),
       map(() => undefined),
     );
+  }
+
+  @Post('signout')
+  @UseGuards(AuthGuard)
+  logout(@Res() res: Response): void {
+    res.clearCookie('authorization');
+    res.send({ message: 'Successfully logged out' });
   }
 
   @Get(':id')
