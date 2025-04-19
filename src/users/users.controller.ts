@@ -49,6 +49,7 @@ export class UsersController implements OnModuleInit {
     res.cookie('authorization', `Bearer ${token}`, {
       httpOnly: true,
       secure: true,
+      domain: '.yenisei.org',
       maxAge,
     });
 
@@ -114,6 +115,7 @@ export class UsersController implements OnModuleInit {
     res.clearCookie('authorization', {
       httpOnly: true,
       secure: true,
+      domain: '.yenisei.org',
     });
 
     res.send({ message: 'Successfully logged out' });
