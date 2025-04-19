@@ -111,6 +111,11 @@ export class UsersController implements OnModuleInit {
   @Post('signout')
   @UseGuards(AuthGuard)
   logout(@Res() res: Response): void {
+    res.clearCookie('authorization', {
+      httpOnly: true,
+      secure: true,
+    });
+
     res.clearCookie('authorization');
     res.send({ message: 'Successfully logged out' });
   }
