@@ -9,7 +9,7 @@ COPY pm2.json ./
 COPY tsconfig.build.json ./
 COPY tsconfig.json ./
 
-EXPOSE 3000
+EXPOSE 4000
 
 RUN npm i pm2 -g && npm install
 

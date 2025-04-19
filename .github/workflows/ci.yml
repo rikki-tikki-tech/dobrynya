@@ -81,6 +81,6 @@ jobs:
             if [[ -n "$(docker ps -a -q)" ]]; then docker stop $(docker ps -a -q); fi
             
             docker pull utrobin/dobrynya
-            docker run -d --restart always -p 3000:3000 utrobin/dobrynya
+            docker run -d --restart always -p 4000:4000 utrobin/dobrynya
             
             echo Container updated successfully.
